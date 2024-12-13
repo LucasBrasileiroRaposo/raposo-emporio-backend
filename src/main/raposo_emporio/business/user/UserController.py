@@ -45,42 +45,42 @@ class UserController(Singleton):
             data = request.get_json()
             login_data = UserLoginDTO(**data)
             data = self.user_service.login(login_data)
-            return make_response(jsonify({'token': data['token'], 'role': data['role']}), 200)
+            return make_response(jsonify({'token': data['token'], 'id': data['id']}), 200)
         except Exception as e:
             return make_response(jsonify({'error': str(e)}), 400)
 
     @token_required
-    def get_users(self, username):
+    def get_users(self, requester_id):
         try:
-            users = self.user_service.get_users()
+            users = self.user_service.get_users(requester_id)
             return make_response(jsonify({'message': "Success", "response": users}), 200)
         except Exception as e:
             return make_response(jsonify({'error': str(e)}), 400)
 
     @token_required
-    def get_user_by_id(self, id, username):
+    def get_user_by_id(self, id, requester_id):
         try:
-            user = self.user_service.get_user_by_id(id, username)
+            user = self.user_service.get_user_by_id(id, requester_id)
             user = UserRegisteredDTO(user).deserialize()
             return make_response(jsonify({'message': user}), 200)
         except Exception as e:
             return make_response(jsonify({'error': str(e)}), 400)
 
     @token_required
-    def update_user(self, id, username):
+    def update_user(self, id, requester_id):
         try:
             data = request.get_json()
             to_update_data = UserUpdateDTO(**data)
-            updated_user = self.user_service.update_user(id, username, to_update_data)
+            updated_user = self.user_service.update_user(id, requester_id, to_update_data)
             updated_user = UserRegisteredDTO(updated_user)
             return make_response(jsonify({'message': 'User updated', 'response': updated_user.deserialize()}), 200)
         except Exception as e:
             return make_response(jsonify({'error': str(e)}), 400)
 
     @token_required
-    def delete_user(self, id, username):
+    def delete_user(self, id, requester_id):
         try:
-            self.user_service.delete_user(id, username)
+            self.user_service.delete_user(id, requester_id)
             return make_response(jsonify({'message': 'User deleted'}), 200)
         except Exception as e:
             return make_response(jsonify({'error': str(e)}), 400)

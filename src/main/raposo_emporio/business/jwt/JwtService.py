@@ -20,7 +20,7 @@ def token_required(f):
 
         try:
             decoded_token = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
-            kwargs['username'] = decoded_token.get("username", None)
+            kwargs['requester_id'] = decoded_token.get("id", None)
         except jwt.ExpiredSignatureError:
             return make_response(jsonify({"message": "Token has expired!"}), 401)
         except jwt.InvalidTokenError:

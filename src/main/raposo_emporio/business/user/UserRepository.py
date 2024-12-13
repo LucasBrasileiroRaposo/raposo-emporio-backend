@@ -19,5 +19,8 @@ class UserRepository(Singleton):
     def find_all(self):
         return User.query.all()
 
+    def find_all_by_role(self, role: str):
+        return User.query.filter_by(role=role).all()
+
     def find_by_id(self, user_id: int):
         return User.query.get(user_id)

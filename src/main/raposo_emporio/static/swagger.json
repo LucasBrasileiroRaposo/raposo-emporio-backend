@@ -103,7 +103,7 @@
                       "type": "string",
                       "example": "1234165151axcqwc"
                     },
-                    "role":{
+                    "id":{
                       "type": "string",
                       "example": "USER"
                     }
