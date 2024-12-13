@@ -22,6 +22,8 @@ def create_app():
 
     swaggerui_blueprint = config_swagger()
     user_controller = UserController()
+    print(db)
+    print(os.getenv('DATABASE_URI'))
 
     app.register_blueprint(swaggerui_blueprint)
     app.register_blueprint(user_controller.register_routes(), url_prefix=user_controller.USER__ROUTES_PREFIX)
@@ -34,9 +36,9 @@ def create_app():
 
 def config_swagger():
     return get_swaggerui_blueprint(
-    SWAGGER_URL,  # Swagger UI static files will be mapped to '{SWAGGER_URL}/dist/'
+    SWAGGER_URL,
     API_URL,
-    config={  # Swagger UI config overrides
+    config={
         'app_name': "Raposo Emporio"
     }
 )

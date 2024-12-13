@@ -57,7 +57,7 @@ class UserService(Singleton):
         secret_key = os.environ.get("SECRET_KEY")
         token = jwt.encode(payload, secret_key, algorithm="HS256")
 
-        return token
+        return {"token":token, "role": user_found.role.name}
 
     def get_users(self):
 
@@ -92,7 +92,7 @@ class UserService(Singleton):
 
         requester_role = self.__find_requester_role(username)
 
-        if user_found.username != username and requester_role != 'ADMIN':
+        if user_found.username != username:
             raise Exception('Unauthorized, you can only update your own data')
 
         user_found.username = (user.username if user.username else user_found.username)
@@ -100,11 +100,11 @@ class UserService(Singleton):
         user_found.last_name = (user.last_name if user.last_name else user_found.last_name)
         user_found.birth_date = (user.birth_date if user.birth_date else user_found.birth_date)
         user_found.email = (user.email if user.email else user_found.email)
-        user_found.document = (user.document if user.document else user_found.document)
+        user_found.document = (user.document.upper() if user.document else user_found.document)
         user_found.phone = (user.phone if user.phone else user_found.phone)
-        user_found.country = (user.country if user.country else user_found.country)
-        user_found.state = (user.state if user.state else user_found.state)
-        user_found.city = (user.city if user.city else user_found.city)
+        user_found.country = (user.country.upper() if user.country else user_found.country)
+        user_found.state = (user.state.upper() if user.state else user_found.state)
+        user_found.city = (user.city.upper() if user.city else user_found.city)
         user_found.role = (user.role if user.role and requester_role != "USER" else user_found.role)
 
         return self.user_repository.save(user_found)

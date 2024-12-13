@@ -33,6 +33,7 @@ class UserController(Singleton):
         try:
             data = request.get_json()
             user = UserRegisterDTO(**data)
+            print(user.birth_date)
             user_registered = self.user_service.register_user(user)
             response_user = UserRegisteredDTO(user_registered)
             return make_response(jsonify({'message': 'User created!', 'response': response_user.deserialize()}), 201)
@@ -43,8 +44,8 @@ class UserController(Singleton):
         try:
             data = request.get_json()
             login_data = UserLoginDTO(**data)
-            token = self.user_service.login(login_data)
-            return make_response(jsonify({'message': f'Your token is: {token}'}), 200)
+            data = self.user_service.login(login_data)
+            return make_response(jsonify({'token': data['token'], 'role': data['role']}), 200)
         except Exception as e:
             return make_response(jsonify({'error': str(e)}), 400)
 
@@ -63,7 +64,7 @@ class UserController(Singleton):
             user = UserRegisteredDTO(user).deserialize()
             return make_response(jsonify({'message': user}), 200)
         except Exception as e:
-            return make_response(jsonify({'message': str(e)}), 400)
+            return make_response(jsonify({'error': str(e)}), 400)
 
     @token_required
     def update_user(self, id, username):
@@ -74,7 +75,7 @@ class UserController(Singleton):
             updated_user = UserRegisteredDTO(updated_user)
             return make_response(jsonify({'message': 'User updated', 'response': updated_user.deserialize()}), 200)
         except Exception as e:
-            return make_response(jsonify({'message': str(e)}), 400)
+            return make_response(jsonify({'error': str(e)}), 400)
 
     @token_required
     def delete_user(self, id, username):
@@ -82,4 +83,4 @@ class UserController(Singleton):
             self.user_service.delete_user(id, username)
             return make_response(jsonify({'message': 'User deleted'}), 200)
         except Exception as e:
-            return make_response(jsonify({'message': str(e)}), 400)
+            return make_response(jsonify({'error': str(e)}), 400)

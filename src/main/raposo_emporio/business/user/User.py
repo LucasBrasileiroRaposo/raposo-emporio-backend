@@ -42,9 +42,9 @@ class User(db.Model):
         self.last_name = last_name
         self.birth_date = birth_date
         self.email = email
-        self.document = document
+        self.document = document.upper()
         self.phone = phone
-        self.country = country
-        self.state = state
-        self.city = city
+        self.country = country.upper()
+        self.state = state.upper() if state else None
+        self.city = city.upper() if city else None
         self.role = role
