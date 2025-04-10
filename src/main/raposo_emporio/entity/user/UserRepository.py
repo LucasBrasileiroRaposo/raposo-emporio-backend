@@ -1,5 +1,5 @@
 from singleton.Singleton import Singleton
-from business.user.User import User
+from entity.user.User import User
 from database import db
 
 class UserRepository(Singleton):

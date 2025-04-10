@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, request, jsonify, make_response
+from flask import Blueprint, request, jsonify, make_response
 
 from singleton.Singleton import Singleton
 from business.user.UserService import UserService
@@ -33,7 +33,6 @@ class UserController(Singleton):
         try:
             data = request.get_json()
             user = UserRegisterDTO(**data)
-            print(user.birth_date)
             user_registered = self.user_service.register_user(user)
             response_user = UserRegisteredDTO(user_registered)
             return make_response(jsonify({'message': 'User created!', 'response': response_user.deserialize()}), 201)

@@ -1,7 +1,7 @@
 from typing import Optional
 from pydantic import BaseModel, EmailStr, Field, field_validator
 from datetime import date, timedelta
-from business.user.enum.RoleEnum import RoleEnum
+from entity.user.enum.RoleEnum import RoleEnum
 
 
 class UserRegisterDTO(BaseModel):

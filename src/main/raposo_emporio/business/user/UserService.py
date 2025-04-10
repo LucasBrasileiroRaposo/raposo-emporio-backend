@@ -1,14 +1,15 @@
+import datetime
+import os
+import bcrypt
+import jwt
+from typing import List
 from singleton.Singleton import Singleton
-from business.user.UserRepository import UserRepository
+from entity.user.UserRepository import UserRepository
+from entity.user.User import User
 from dtos.user.UserRegisterDTO import UserRegisterDTO
 from dtos.user.UserRegisteredDTO import UserRegisteredDTO
 from dtos.user.UserUpdateDTO import UserUpdateDTO
 from dtos.user.UserLoginDTO import UserLoginDTO
-from business.user.User import User
-import bcrypt
-import jwt
-import os
-import datetime
 
 class UserService(Singleton):
 
@@ -129,6 +130,12 @@ class UserService(Singleton):
             raise Exception('Unauthorized, you can delete see your own account')
 
         return self.user_repository.delete(user_id)
+
+    def check_user_permission(self, requester_id, authorized_roles: List[str]):
+        requester_role = self.__find_requester_role(requester_id)
+
+        if requester_role not in authorized_roles:
+            raise Exception('Unauthorized, you do not have permission to perform this action')
 
     def __find_requester_role(self, id):
         requester = self.user_repository.find_by_id(id)

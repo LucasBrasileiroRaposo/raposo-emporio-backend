@@ -1,8 +1,8 @@
 from pydantic import BaseModel, EmailStr
 from datetime import date
 from typing import Optional
-from business.user.enum.RoleEnum import RoleEnum
-from business.user.User import User
+from entity.user.enum.RoleEnum import RoleEnum
+from entity.user.User import User
 
 class UserRegisteredDTO(BaseModel):
     id: Optional[int]

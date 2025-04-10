@@ -3,6 +3,8 @@ import os
 from flask import Flask
 from flask_swagger_ui import get_swaggerui_blueprint
 from business.user.UserController import UserController
+from business.batch.BatchController import BatchController
+from business.product.ProductController import ProductController
 from database import db
 
 SWAGGER_URL = '/api/docs'
@@ -22,11 +24,16 @@ def create_app():
 
     swaggerui_blueprint = config_swagger()
     user_controller = UserController()
+    batch_controller = BatchController()
+    product_controller = ProductController()
+
     print(db)
     print(os.getenv('DATABASE_URI'))
 
     app.register_blueprint(swaggerui_blueprint)
     app.register_blueprint(user_controller.register_routes(), url_prefix=user_controller.USER__ROUTES_PREFIX)
+    app.register_blueprint(batch_controller.register_routes(), url_prefix=BatchController.BATCH__ROUTES_PREFIX)
+    app.register_blueprint(product_controller.register_routes(), url_prefix=ProductController.PRODUCT__ROUTES_PREFIX)
     db.init_app(app)
 
     with app.app_context():

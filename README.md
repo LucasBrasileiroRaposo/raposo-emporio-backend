@@ -66,3 +66,11 @@ Me desafiei a começar com o que mais tenho dificuldade que é a questão de aut
     ```bash
     python app.py
     ```
+
+6. Ou utilizando Docker
+```bash
+docker build -t my-flask-app .
+```
+```bash
+docker run --env-file .env -p 5000:5000 my-flask-app
+```

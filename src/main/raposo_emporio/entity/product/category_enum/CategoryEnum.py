@@ -1,0 +1,12 @@
+from enum import Enum
+
+class CategoryEnum(Enum):
+    BEVERAGES = 'BEVERAGES'
+    CANDIES = 'CANDIES'
+    SNACKS = 'SNACKS'
+    FROZEN_FOODS = 'FROZEN_FOODS'
+    CORN_FOODS = 'CORN_FOODS'
+    BAKERY = 'BAKERY'
+    MEAT = 'MEAT'
+    CONDIMENTS_SPICES = 'CONDIMENTS_SPICES'
+    UNDEFINED = 'UNDEFINED'
