@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 import os
 from flask import Flask
+from sqlalchemy import text
 from flask_swagger_ui import get_swaggerui_blueprint
 from business.user.UserController import UserController
 from business.batch.BatchController import BatchController
@@ -21,20 +22,22 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
 
     app.port = os.environ.get('PORT')
+    app.host = os.environ.get('HOST')
 
     swaggerui_blueprint = config_swagger()
     user_controller = UserController()
     batch_controller = BatchController()
     product_controller = ProductController()
 
-    print(db)
-    print(os.getenv('DATABASE_URI'))
-
     app.register_blueprint(swaggerui_blueprint)
     app.register_blueprint(user_controller.register_routes(), url_prefix=user_controller.USER__ROUTES_PREFIX)
     app.register_blueprint(batch_controller.register_routes(), url_prefix=BatchController.BATCH__ROUTES_PREFIX)
     app.register_blueprint(product_controller.register_routes(), url_prefix=ProductController.PRODUCT__ROUTES_PREFIX)
     db.init_app(app)
+
+    @app.before_request
+    def activate_foreign_keys():
+        db.session.execute(text('PRAGMA foreign_keys=ON;'))
 
     with app.app_context():
         db.create_all()

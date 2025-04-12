@@ -1,19 +1,19 @@
 from datetime import date
-from pydantic import BaseModel, Field, field_validator
-
+from pydantic import BaseModel, Field, field_validator, model_validator
+from typing import Optional
 
 class BatchRegisterDTO(BaseModel):
     expiration_date: date
     manufacture_date: date
     quantity: int = Field(..., gt=0)
     code: str = Field(..., min_length=1, max_length=50)
+    product_id: Optional[int] = Field(default=None, exclude=True)
 
-    @field_validator("expiration_date")
-    def expiration_after_manufacture(cls, value, values):
-        manufacture_date = values.get("manufacture_date")
-        if manufacture_date and value <= manufacture_date:
+    @model_validator(mode="after")
+    def expiration_after_manufacture(cls, values):
+        if values.expiration_date  <= values.manufacture_date:
             raise ValueError("Expiration date must be after manufacture date")
-        return value
+        return values
 
     @field_validator("manufacture_date")
     def manufacture_in_the_past(cls, value):

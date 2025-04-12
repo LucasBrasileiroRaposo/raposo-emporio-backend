@@ -2,7 +2,7 @@ from typing import Optional, List
 from pydantic import BaseModel
 from entity.product.category_enum.CategoryEnum import CategoryEnum
 from entity.product.Product import Product
-from dtos.batch.BatchRegisteredDTO import BatchRegisteredDTO  # Assuming you have this
+from dtos.batch.BatchRegisteredDTO import BatchRegisteredDTO
 
 class ProductRegisteredDTO(BaseModel):
     id: Optional[int]
@@ -24,8 +24,8 @@ class ProductRegisteredDTO(BaseModel):
             category=product.category,
             base_price=product.base_price,
             image_url=product.image_url,
-            is_active=product.isActive,
-            batches=[BatchRegisteredDTO(batch) for batch in product.batches] if product.batches else []
+            is_active=product.is_active,
+            batches=[BatchRegisteredDTO.from_entity(batch).deserialize() for batch in product.batches] if product.batches else []
         )
 
     def deserialize(self):

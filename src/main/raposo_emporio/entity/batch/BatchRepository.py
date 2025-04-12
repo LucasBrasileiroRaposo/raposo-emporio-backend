@@ -1,6 +1,7 @@
 from singleton.Singleton import Singleton
 from entity.batch.Batch import Batch
 from database import db
+from typing import List
 
 class BatchRepository(Singleton):
 
@@ -9,7 +10,7 @@ class BatchRepository(Singleton):
         db.session.commit()
         return batch
 
-    def saveAll(self, batches: list[Batch]):
+    def save_all(self, batches: List[Batch]):
         db.session.add_all(batches)
         db.session.commit()
         return batches

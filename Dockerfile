@@ -8,5 +8,5 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-WORKDIR /app/scr/main/raposo_emporio
+WORKDIR /app/src/main/raposo_emporio
 CMD ["python", "app.py"]

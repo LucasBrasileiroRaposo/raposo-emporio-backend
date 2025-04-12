@@ -14,5 +14,5 @@ class Batch(db.Model):
     expiration_date: Mapped[datetime.date] = mapped_column(Date, nullable=False)
     manufacture_date: Mapped[datetime.date] = mapped_column(Date, nullable=False)
     quantity: Mapped[int] = mapped_column(Integer, nullable=False)
-    product_id: Mapped[int] = mapped_column(Integer, ForeignKey('product.id'), nullable=False)
-    product: Mapped["Product"] =  relationship(back_populates="batch")
+    product_id: Mapped[int] = mapped_column(Integer, ForeignKey('product.id', ondelete='CASCADE'), nullable=False)
+    product: Mapped["Product"] =  relationship("Product", back_populates="batches")

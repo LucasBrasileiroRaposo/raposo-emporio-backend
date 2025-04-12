@@ -56,7 +56,7 @@ class ProductController(Singleton):
         try:
             data = request.get_json()
             to_update_data = ProductUpdateDTO(**data)
-            updated_product = self.product_service.update_product(id, requester_id, to_update_data)
+            updated_product = self.product_service.update_product(id, to_update_data, requester_id)
             updated_product = ProductRegisteredDTO(updated_product)
             return make_response(jsonify({'message': 'Product updated', 'response': updated_product.deserialize()}), 200)
         except Exception as e:

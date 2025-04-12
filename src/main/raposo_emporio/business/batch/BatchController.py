@@ -30,16 +30,18 @@ class BatchController(Singleton):
         try:
             data = request.get_json()
             batch_data = BatchRegisterDTO(**data)
-            created_batch = self.batch_service.register_single_batch(batch_data, requester_id)
-            response_batch = BatchRegisteredDTO(created_batch)
-            return make_response(jsonify({'message': 'Batch created!', 'response': response_batch.deserialize()}), 201)
+            if(batch_data.product_id == None):
+                raise Exception('Product ID is required')
+            created_batch = self.batch_service.register_batch([batch_data], batch_data.product_id, requester_id)
+            response_batch = [batch.deserialize() for batch in created_batch]
+            return make_response(jsonify({'message': 'Batch created!', 'response': response_batch}), 201)
         except Exception as e:
             return make_response(jsonify({'error': str(e)}), 400)
 
     def get_batch_by_id(self, id):
         try:
             batch = self.batch_service.get_batch_by_id(id)
-            response_batch = BatchRegisteredDTO(batch).deserialize()
+            response_batch = BatchRegisteredDTO.from_entity(batch).deserialize()
             return make_response(jsonify({'message': response_batch}), 200)
         except Exception as e:
             return make_response(jsonify({'error': str(e)}), 400)
@@ -47,7 +49,7 @@ class BatchController(Singleton):
     def get_batches(self):
         try:
             batches = self.batch_service.get_batches()
-            response = [BatchRegisteredDTO(batch).deserialize() for batch in batches]
+            response = [BatchRegisteredDTO.from_entity(batch).deserialize() for batch in batches]
             return make_response(jsonify({'message': 'Success', 'response': response}), 200)
         except Exception as e:
             return make_response(jsonify({'error': str(e)}), 400)
@@ -58,7 +60,7 @@ class BatchController(Singleton):
             data = request.get_json()
             to_update_data = BatchUpdateDTO(**data)
             updated_batch = self.batch_service.update_batch(id, requester_id, to_update_data)
-            response_batch = BatchRegisteredDTO(updated_batch).deserialize()
+            response_batch = BatchRegisteredDTO.from_entity(updated_batch).deserialize()
             return make_response(jsonify({'message': 'Batch updated', 'response': response_batch}), 200)
         except Exception as e:
             return make_response(jsonify({'error': str(e)}), 400)

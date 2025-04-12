@@ -69,8 +69,9 @@ Me desafiei a começar com o que mais tenho dificuldade que é a questão de aut
 
 6. Ou utilizando Docker
 ```bash
-docker build -t my-flask-app .
+docker build -t raposo-emporio-app .
 ```
+ Troque <port> pelos valores desejados e a porta interna do container a mesma mapeada no .env
 ```bash
-docker run --env-file .env -p 5000:5000 my-flask-app
+docker run --env-file .env -p <port>:<port> raposo-emporio-app
 ```

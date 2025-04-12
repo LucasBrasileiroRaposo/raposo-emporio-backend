@@ -20,7 +20,7 @@ class BatchService(Singleton):
         new_batches = []
         for batch_dto in batches:
             if self.batch_repository.find_by_code(batch_dto.code):
-                raise Exception('Batch already registered for this product')
+                raise Exception('Batch already registered with this code')
 
             new_batch = Batch(
                 expiration_date=batch_dto.expiration_date,
@@ -31,7 +31,8 @@ class BatchService(Singleton):
             )
             new_batches.append(new_batch)
 
-        return self.batch_repository.save_all(new_batches)
+        saved_batches = self.batch_repository.save_all(new_batches)
+        return [BatchRegisteredDTO.from_entity(batch) for batch in saved_batches]
 
     def get_batches(self):
         return self.batch_repository.find_all()
@@ -40,7 +41,7 @@ class BatchService(Singleton):
         batch = self.batch_repository.find_by_id(batch_id)
         if not batch:
             raise Exception('Batch not found')
-        return BatchRegisteredDTO(batch)
+        return BatchRegisteredDTO.from_entity(batch)
 
     def update_batch(self, batch_id: int, requester_id: int, batch_update: BatchUpdateDTO):
         self.user_service.check_user_permission(requester_id, [self.ADMIN_USER_ROLE])

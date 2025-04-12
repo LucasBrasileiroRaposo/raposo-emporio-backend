@@ -11,8 +11,9 @@ class BatchRegisteredDTO(BaseModel):
     code: str
     product_id: int
 
-    def __init__(self, batch: Batch):
-        super().__init__(
+    @classmethod
+    def from_entity(cls, batch: Batch):
+        return cls(
             id=batch.id,
             expiration_date=batch.expiration_date,
             manufacture_date=batch.manufacture_date,

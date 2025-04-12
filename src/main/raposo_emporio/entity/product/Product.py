@@ -16,15 +16,15 @@ class Product(db.Model):
     category: Mapped[CategoryEnum] = mapped_column(Enum(CategoryEnum), nullable=False)
     base_price: Mapped[float] = mapped_column(nullable=False)
     image_url: Mapped[str] = mapped_column(String(255), nullable=True)
-    isActive: Mapped[bool] = mapped_column(nullable=False, default=True)
-    batches: Mapped[List["Batch"]]= relationship("Batch", back_populates="product", cascade="all, delete-orphan")
+    is_active: Mapped[bool] = mapped_column(nullable=False, default=True)
+    batches: Mapped[List["Batch"]]= relationship("Batch", back_populates="product", cascade="all, delete-orphan", passive_deletes=True)
 
-    def __init__(self, name, description, code, category, base_price, image_url, isActive):
+    def __init__(self, name, description, code, category, base_price, image_url, is_active):
         self.name = name
         self.description = description
         self.code = code
         self.category = category
         self.base_price = base_price
         self.image_url = image_url
-        self.isActive = isActive
+        self.isActive = is_active
 
