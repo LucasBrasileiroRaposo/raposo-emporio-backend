@@ -64,7 +64,7 @@ class ProductService(Singleton):
         product_found.category = (product.category if product.category else product_found.category)
         product_found.base_price = (product.base_price if product.base_price else product_found.base_price)
         product_found.image_url = (product.image_url if product.image_url else product_found.image_url)
-        product_found.is_active = (product.is_active if product.is_active else product_found.is_active)
+        product_found.is_active = (product.is_active if product.is_active!=None else product_found.is_active)
 
         return self.product_repository.save(product_found)
 

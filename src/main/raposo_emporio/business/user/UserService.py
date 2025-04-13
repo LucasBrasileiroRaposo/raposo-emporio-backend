@@ -32,7 +32,7 @@ class UserService(Singleton):
             email=user.email,
             document=user.document,
             phone=user.phone,
-            country=user.country,
+            address=user.address,
             state=user.state,
             city=user.city,
             role=user.role
@@ -110,7 +110,7 @@ class UserService(Singleton):
         user_found.email = (user.email if user.email else user_found.email)
         user_found.document = (user.document.upper() if user.document else user_found.document)
         user_found.phone = (user.phone if user.phone else user_found.phone)
-        user_found.country = (user.country.upper() if user.country else user_found.country)
+        user_found.address = (user.address if user.address else user_found.address)
         user_found.state = (user.state.upper() if user.state else user_found.state)
         user_found.city = (user.city.upper() if user.city else user_found.city)
         user_found.role = (user.role if user.role and requester_role != "USER" else user_found.role)

@@ -17,7 +17,7 @@ class User(db.Model):
     email: Mapped[str] = mapped_column(String(80), nullable=False)
     document: Mapped[str] = mapped_column(String(14), nullable=False)
     phone: Mapped[str] = mapped_column(String(15) ,nullable=False)
-    country: Mapped[str] = mapped_column(nullable=False)
+    address: Mapped[str] = mapped_column(String(250), nullable=False)
     state: Mapped[Optional[str]] = mapped_column(String(2))
     city: Mapped[Optional[str]] = mapped_column(String(50))
     role: Mapped[RoleEnum] = mapped_column(Enum(RoleEnum), nullable=False)
@@ -31,7 +31,7 @@ class User(db.Model):
                  email,
                  document,
                  phone,
-                 country,
+                 address,
                  state,
                  city,
                  role):
@@ -44,7 +44,7 @@ class User(db.Model):
         self.email = email
         self.document = document.upper()
         self.phone = phone
-        self.country = country.upper()
+        self.address = address.upper()
         self.state = state.upper() if state else None
         self.city = city.upper() if city else None
         self.role = role

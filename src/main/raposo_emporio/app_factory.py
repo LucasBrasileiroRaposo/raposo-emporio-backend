@@ -31,8 +31,8 @@ def create_app():
 
     app.register_blueprint(swaggerui_blueprint)
     app.register_blueprint(user_controller.register_routes(), url_prefix=user_controller.USER__ROUTES_PREFIX)
-    app.register_blueprint(batch_controller.register_routes(), url_prefix=BatchController.BATCH__ROUTES_PREFIX)
-    app.register_blueprint(product_controller.register_routes(), url_prefix=ProductController.PRODUCT__ROUTES_PREFIX)
+    app.register_blueprint(batch_controller.register_routes(), url_prefix=batch_controller.BATCH__ROUTES_PREFIX)
+    app.register_blueprint(product_controller.register_routes(), url_prefix=product_controller.PRODUCT__ROUTES_PREFIX)
     db.init_app(app)
 
     @app.before_request

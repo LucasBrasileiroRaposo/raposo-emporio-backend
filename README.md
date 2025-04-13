@@ -5,10 +5,12 @@
 É uma loja de comidas, bebidas e doces da minha família. Com intuito de praticar meus conhecimentos em programação questionei minhas tias se as interessariam um sistema de gerencia de estoque personalizado e a partir daí tive a idea de usar para o meu projeto. No futuro pretendo completar a implementação desse sistema adicionando produtos, vendas e mais. Considerando que, dependendo da escala que tome até se transformar em um e-commerce.
 
 ## Objetivo
-Sistema CRUD para gerenciar usuários, para o sistema do Raposo Emporio. Funcionalidade básica, inicial, da construção do sistema da loja para gerencia de clientes e admnistradores.
+Sistema CRUD para gerenciar usuários, produtos e lotes para o sistema do Raposo Emporio. Funcionalidade básica, inicial, da construção do sistema da loja para gerencia de clientes e admnistradores.
 
 ## Regras de negócio
 Usuários podem se cadastrar por si só no sistema, nesse primeiro momento, o próprio pode escolher sua função, entre ADMIN e USER, e após o cadastro o usuário é levado a tela de login. Após a realização correta do login, passa para a tela principal onde se tem algumas informações de todos os usuários cadastrados no sistema, sendo que ADMINs podem ver todos eles, mas um USER pode ver apenas outros USERs. Outra regra do sistema, é que um usuário USER pode editar e excluir apenas o próprio perfil, não tendo se quer acesso a dados não mostrados na página principal, enquanto ADMINs conseguem ver os dados de outros users (mas não edita-los) e tem o poder de excluir o user.
+
+Tanto produtos e como lotes podem ser criados, editados e deletados do sistemas, apenas por administradores, enquanto as rotas de leitura de produtos e lotes usuários sem estarem logados podem ver. Um produto pode ter vários lotes, mas um lote pode estar atrelapo apenas a um produto. Todo lote precisa estar atrelado a um produto, mas um produto pode ser criado sem um lote atrelado a ele. Quando um produto é deletado todos os lotes atrelados a ele são apagados por consequência.
 
 ## Back-End
 
@@ -18,6 +20,7 @@ Usuários podem se cadastrar por si só no sistema, nesse primeiro momento, o pr
 - JWT
 - SQLite (Banco de Dados)
 - Swagger
+- Docker
 
 ### Padrões de projetos
 Devido ao conhecimento prévio que tenho na parte de back end, implementei alguns padrões de projetos, preparando o sistema para adições futuras e se tornar uma aplicação de maior escala. Alguns padrões utilizados foram:
@@ -36,7 +39,7 @@ Me desafiei a começar com o que mais tenho dificuldade que é a questão de aut
 
 1. Clone o repositório:
    ```bash
-   git clone <url-do-repositorio>
+   git clone https://github.com/LucasBrasileiroRaposo/raposo-emporio-backend.git
     ```
 
 2. Criar ambiente virtual na raiz do projeto
