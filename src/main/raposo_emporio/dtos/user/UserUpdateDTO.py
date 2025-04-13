@@ -12,7 +12,7 @@ class UserUpdateDTO(BaseModel):
     password: Optional[str] = Field(None, min_length=8)
     document: Optional[str] = Field(None, min_length=11, max_length=14)
     phone: Optional[str] = Field(None, min_length=10, max_length=15)
-    country: Optional[str] = Field(None, min_length=3, max_length=50)
+    address: Optional[str] = Field(None, min_length=3, max_length=250)
     state: Optional[str] = Field(None, min_length=2, max_length=2)
     city: Optional[str] = Field(None, min_length=3, max_length=50)
     role: Optional[RoleEnum] = Field(None, nullable=True)

@@ -13,7 +13,7 @@ class UserRegisteredDTO(BaseModel):
     email: EmailStr
     document: str
     phone: str
-    country: str
+    address: str
     state: Optional[str]
     city: Optional[str]
     role: RoleEnum
@@ -28,7 +28,7 @@ class UserRegisteredDTO(BaseModel):
             email=user.email,
             document=user.document,
             phone=user.phone,
-            country=user.country,
+            address=user.address,
             state=user.state,
             city=user.city,
             role=user.role
@@ -44,7 +44,7 @@ class UserRegisteredDTO(BaseModel):
             "email": self.email,
             "document": self.document,
             "phone": self.phone,
-            "country": self.country,
+            "address": self.address,
             "state": self.state,
             "city": self.city,
             "role": self.role.name

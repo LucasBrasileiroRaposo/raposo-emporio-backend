@@ -29,6 +29,14 @@
     {
       "name": "user",
       "description": "Operations about user"
+    },
+    {
+      "name": "product",
+      "description": "Operations about product"
+    },
+    {
+      "name": "batch",
+      "description": "Operations about batch"
     }
   ],
   "paths": {
@@ -236,7 +244,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "name that need to be deleted",
+            "description": "id that need to be deleted",
             "required": true,
             "schema": {
               "type": "integer",
@@ -293,7 +301,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "The name that needs to be deleted",
+            "description": "The id of the user that needs to be deleted",
             "required": true,
             "schema": {
               "type": "integer",
@@ -304,6 +312,389 @@
         "responses": {
           "200": {
             "description": "User deleted"
+          },
+          "400": {
+            "description": "Error during request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/product/":{
+      "get": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Get all products",
+        "responses": {
+          "200": {
+            "description": "Successful request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "response": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ProductRegistered"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User needs to be logged!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Register a new product",
+        "security": [{ "bearerAuth": [] }],
+        "description": "User must be logged in. Only ADMIN can register a new product.",
+        "requestBody": {
+          "required": true,
+          "content":{
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductRegister"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Product created",
+              "content": {
+                "application/json": {
+                  "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Product created successfully"
+                    },
+                    "response": {
+                      "$ref": "#/components/schemas/ProductRegistered"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error creating product",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/product/{id}":{
+      "get": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Get product by ID",
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": { "type": "integer" }
+        }],
+        "responses": {
+          "200": {
+            "description": "Product details",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProductRegistered" }
+              }
+            }
+          },
+          "400": {
+            "description": "Error occurred while getting product info",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put":{
+        "tags":[
+          "product"
+        ],
+        "summary":"Update product",
+        "security": [{ "bearerAuth": [] }],
+        "description": "User must be logged in. Only ADMIN can update a product.",
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": { "type": "integer" }
+        }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ProductUpdate" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Product updated",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProductRegistered" }
+              }
+            }
+          },
+          "400": {
+            "description": "Error during request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Delete product",
+        "security": [{ "bearerAuth": [] }],
+        "description": "User must be logged in. Only ADMIN can delete a product.",
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "description": "The ID of the product to delete",
+          "required": true,
+          "schema": { "type": "integer" }
+        }],
+        "responses": {
+          "200": {
+            "description": "Product deleted"
+          },
+          "400": {
+            "description": "Error during request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/batch/":{
+      "post": {
+        "tags": [
+          "batch"
+        ],
+        "summary": "Register a new batch",
+        "security": [{ "bearerAuth": [] }],
+        "description": "User must be logged in. Only ADMIN can register a new batch.",
+        "requestBody": {
+          "required": true,
+          "content":{
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchRegister"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Batch created",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BatchRegistered" }
+              }
+            }
+          },
+          "400": {
+            "description": "Error creating batch",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "batch"
+        ],
+        "summary": "Get all batches",
+        "responses": {
+          "200": {
+            "description": "Successful request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "response": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/BatchRegistered"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error while getting batches data!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/batch/{id}": {
+      "get": {
+        "tags": [
+          "batch"
+        ],
+        "summary": "Get batch by ID",
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": { "type": "integer" }
+        }],
+        "responses": {
+          "200": {
+            "description": "Batch details",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BatchRegistered" }
+              }
+            }
+          },
+          "400": {
+            "description": "Error occurred while getting batch info",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "batch"
+        ],
+        "summary": "Update batch",
+        "security": [{ "bearerAuth": [] }],
+        "description": "User must be logged in. Only ADMIN can update a batch.",
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "required": true,
+          "schema": { "type": "integer" }
+        }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/BatchUpdate" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Batch updated",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BatchRegistered" }
+              }
+            }
+          },
+          "400": {
+            "description": "Error during updating batch",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "batch"
+        ],
+        "summary": "Delete batch",
+        "security": [{ "bearerAuth": [] }],
+        "description": "User must be logged in. Only ADMIN can delete a batch.",
+        "parameters": [{
+          "in": "path",
+          "name": "id",
+          "description": "The ID of the batch to delete",
+          "required": true,
+          "schema": { "type": "integer" }
+        }],
+        "responses": {
+          "200": {
+            "description": "Batch deleted"
           },
           "400": {
             "description": "Error during request",
@@ -369,25 +760,25 @@
             "maxLength": 15,
             "example": "1234567890"
           },
-          "country": {
+          "address": {
             "type": "string",
             "minLength": 3,
             "maxLength": 50,
-            "example": "UNITED STATES"
+            "example": "Rua das Flores, 123"
           },
           "state": {
             "type": "string",
             "minLength": 2,
             "maxLength": 2,
             "nullable": true,
-            "example": "CA"
+            "example": "SP"
           },
           "city": {
             "type": "string",
             "minLength": 3,
             "maxLength": 50,
             "nullable": true,
-            "example": "LOS ANGELES"
+            "example": "São Paulo"
           },
           "role": {
             "type": "string",
@@ -407,7 +798,7 @@
           "password",
           "document",
           "phone",
-          "country",
+          "address",
           "role"
         ]
       },
@@ -458,25 +849,25 @@
             "maxLength": 15,
             "example": "1234567890"
           },
-          "country": {
+          "address": {
             "type": "string",
             "minLength": 3,
-            "maxLength": 50,
-            "example": "United States"
+            "maxLength": 250,
+            "example": "Rua das Flores, 123"
           },
           "state": {
             "type": "string",
             "minLength": 2,
             "maxLength": 2,
             "nullable": true,
-            "example": "CA"
+            "example": "SP"
           },
           "city": {
             "type": "string",
             "minLength": 3,
             "maxLength": 50,
             "nullable": true,
-            "example": "Los Angeles"
+            "example": "São Paulo"
           },
           "role": {
             "type": "string",
@@ -495,7 +886,7 @@
           "email",
           "document",
           "phone",
-          "country",
+          "address",
           "role"
         ]
       },
@@ -567,25 +958,25 @@
             "maxLength": 15,
             "example": "1234567890"
           },
-          "country": {
+          "address": {
             "type": "string",
             "minLength": 3,
-            "maxLength": 50,
-            "example": "United States"
+            "maxLength": 250,
+            "example": "Rua das Flores, 123"
           },
           "state": {
             "type": "string",
             "minLength": 2,
             "maxLength": 2,
             "nullable": true,
-            "example": "CA"
+            "example": "SP"
           },
           "city": {
             "type": "string",
             "minLength": 3,
             "maxLength": 50,
             "nullable": true,
-            "example": "Los Angeles"
+            "example": "São Paulo"
           },
           "role": {
             "type": "string",
@@ -605,6 +996,341 @@
             "example": "An error occurred while fetching users."
           }
         }
+      },
+      "ProductRegister": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100,
+              "example": "Bolo de rolo"
+            },
+            "description": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 255,
+              "example": "Bolo de rolo enrolado em formato cilíndrico."
+            },
+            "code": {
+              "type": "integer",
+              "minimum": 0,
+              "example": 123
+            },
+            "category": {
+              "type": "string",
+              "enum": [
+                "BEVERAGES",
+                "CANDIES",
+                "SNACKS",
+                "FROZEN_FOODS",
+                "CORN_FOODS",
+                "BAKERY",
+                "MEAT",
+                "CONDIMENTS_SPICES",
+                "UNDEFINED"
+              ],
+              "example": "BAKERY"
+            },
+            "base_price": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "example": 99.99
+            },
+            "image_url": {
+              "type": "string",
+              "maxLength": 255,
+              "nullable": true,
+              "example": "https://exemplo.com/imagem.jpg"
+            },
+            "is_active": {
+              "type": "boolean",
+              "default": true,
+              "example": true
+            },
+            "batches": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/BatchRegisterByProduct"
+              },
+              "default": [],
+              "example": [
+                {
+                  "expiration_date": "2025-12-31",
+                  "manufacture_date": "2025-01-01",
+                  "quantity": 100,
+                  "code": "Lote001"
+                },
+                {
+                  "expiration_date": "2026-06-30",
+                  "manufacture_date": "2025-06-01",
+                  "quantity": 200,
+                  "code": "Lote002"
+                }
+              ]            }
+          },
+          "required": [
+            "name",
+            "description",
+            "code",
+            "category",
+            "base_price"
+          ]
+      },
+      "ProductRegistered": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "nullable": true,
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "Bolo de rolo"
+          },
+          "description": {
+            "type": "string",
+            "example": "Bolo de rolo enrolado em formato cilíndrico."
+          },
+          "code": {
+            "type": "integer",
+            "example": 123
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "BEVERAGES",
+              "CANDIES",
+              "SNACKS",
+              "FROZEN_FOODS",
+              "CORN_FOODS",
+              "BAKERY",
+              "MEAT",
+              "CONDIMENTS_SPICES",
+              "UNDEFINED"
+            ],
+            "example": "BAKERY"
+          },
+          "base_price": {
+            "type": "number",
+            "example": 99.99
+          },
+          "image_url": {
+            "type": "string",
+            "nullable": true,
+            "maxLength": 255,
+            "example": "https://exemplo.com/imagem.jpg"
+          },
+          "is_active": {
+            "type": "boolean",
+            "example": true
+          },
+          "batches": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BatchRegistered"
+            },
+            "default": [],
+            "example": []
+          }
+        },
+        "required": [
+          "name",
+          "description",
+          "code",
+          "category",
+          "base_price",
+          "is_active"
+        ]
+      },
+      "ProductUpdate": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100,
+            "example": "Bolo de rolo 2"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255,
+            "example": "Bolinho de rolo."
+          },
+          "code": {
+            "type": "integer",
+            "minimum": 0,
+            "example": 125
+          },
+          "base_price": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "example": 129.99
+          },
+          "image_url": {
+            "type": "string",
+            "maxLength": 255,
+            "nullable": true,
+            "example": "https://exemplo.com/imagem_atualizada.jpg"
+          },
+          "is_active": {
+            "type": "boolean",
+            "example": false
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "BEVERAGES",
+              "CANDIES",
+              "SNACKS",
+              "FROZEN_FOODS",
+              "CORN_FOODS",
+              "BAKERY",
+              "MEAT",
+              "CONDIMENTS_SPICES",
+              "UNDEFINED"
+            ],
+            "example": "BAKERY"
+          }
+        }
+      },
+      "BatchRegisterByProduct": {
+        "type": "object",
+        "properties": {
+          "expiration_date": {
+            "type": "string",
+            "format": "date",
+            "example": "2025-12-31"
+            },
+            "manufacture_date": {
+              "type": "string",
+              "format": "date",
+              "example": "2025-01-01"
+            },
+            "quantity": {
+              "type": "integer",
+              "minimum": 1,
+              "example": 100
+            },
+            "code": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 50,
+              "example": "BATCH-001"
+            }
+          },
+          "required": [
+            "expiration_date",
+            "manufacture_date",
+            "quantity",
+            "code"
+          ]
+      },
+      "BatchRegister": {
+        "type": "object",
+        "properties": {
+          "expiration_date": {
+            "type": "string",
+            "format": "date",
+            "example": "2025-12-31"
+          },
+          "manufacture_date": {
+            "type": "string",
+            "format": "date",
+            "example": "2025-01-01"
+          },
+          "quantity": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 100
+          },
+          "code": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 50,
+            "example": "BATCH-001"
+          },
+          "product_id": {
+            "type": "integer",
+            "example": 1
+          }
+        },
+        "required": [
+          "expiration_date",
+          "manufacture_date",
+          "quantity",
+          "code",
+          "product_id"
+        ]
+      },
+      "BatchRegistered": {
+        "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "nullable": true,
+              "example": 100
+            },
+            "expiration_date": {
+              "type": "string",
+              "format": "date",
+              "example": "2025-12-31"
+            },
+            "manufacture_date": {
+              "type": "string",
+              "format": "date",
+              "example": "2025-01-01"
+            },
+            "quantity": {
+              "type": "integer",
+              "example": 100
+            },
+            "code": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 50,
+              "example": "BATCH-001"
+            },
+            "product_id": {
+              "type": "integer",
+              "example": 1
+            }
+          },
+          "required": [
+            "expiration_date",
+            "manufacture_date",
+            "quantity",
+            "code",
+            "product_id"
+          ]
+      },
+      "BatchUpdate": {
+    "type": "object",
+    "properties": {
+      "expiration_date": {
+        "type": "string",
+        "format": "date",
+        "example": "2025-12-31"
+      },
+      "manufacture_date": {
+        "type": "string",
+        "format": "date",
+        "example": "2025-01-01"
+      },
+      "quantity": {
+        "type": "integer",
+        "minimum": 0,
+        "example": 100
+      },
+      "code": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 50,
+        "example": "BATCH-UPDATE-001"
+      }
+    }
       }
     },
     "securitySchemes": {
