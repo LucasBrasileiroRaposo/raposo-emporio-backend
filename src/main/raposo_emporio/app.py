@@ -6,4 +6,4 @@ app = create_app()
 
 if __name__ == '__main__':
     CORS(app)
-    app.run(debug=True, port=app.port)
+    app.run(host=app.host, debug=True, port=app.port)

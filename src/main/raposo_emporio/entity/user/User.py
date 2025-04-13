@@ -1,8 +1,8 @@
+import datetime
 from database import db
 from sqlalchemy import Integer, String, Enum, Date
 from sqlalchemy.orm import Mapped, mapped_column
-import datetime
-from business.user.enum.RoleEnum import RoleEnum
+from entity.user.enum.RoleEnum import RoleEnum
 from typing import Optional
 
 

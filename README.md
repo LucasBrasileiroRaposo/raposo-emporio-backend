@@ -66,3 +66,12 @@ Me desafiei a começar com o que mais tenho dificuldade que é a questão de aut
     ```bash
     python app.py
     ```
+
+6. Ou utilizando Docker
+```bash
+docker build -t raposo-emporio-app .
+```
+ Troque <port> pelos valores desejados e a porta interna do container a mesma mapeada no .env
+```bash
+docker run --env-file .env -p <port>:<port> raposo-emporio-app
+```

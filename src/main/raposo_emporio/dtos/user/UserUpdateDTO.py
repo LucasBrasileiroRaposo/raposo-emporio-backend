@@ -1,7 +1,7 @@
 from typing import Optional
 from pydantic import BaseModel, Field, field_validator, EmailStr
 from datetime import date, timedelta
-from business.user.enum.RoleEnum import RoleEnum
+from entity.user.enum.RoleEnum import RoleEnum
 
 class UserUpdateDTO(BaseModel):
     username: Optional[str] = Field(None, min_length=3, max_length=50)
