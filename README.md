@@ -10,7 +10,7 @@ Sistema CRUD para gerenciar usuários, produtos e lotes para o sistema do Raposo
 ## Regras de negócio
 Usuários podem se cadastrar por si só no sistema, nesse primeiro momento, o próprio pode escolher sua função, entre ADMIN e USER, e após o cadastro o usuário é levado a tela de login. Após a realização correta do login, passa para a tela principal onde se tem algumas informações de todos os usuários cadastrados no sistema, sendo que ADMINs podem ver todos eles, mas um USER pode ver apenas outros USERs. Outra regra do sistema, é que um usuário USER pode editar e excluir apenas o próprio perfil, não tendo se quer acesso a dados não mostrados na página principal, enquanto ADMINs conseguem ver os dados de outros users (mas não edita-los) e tem o poder de excluir o user.
 
-Tanto produtos e como lotes podem ser criados, editados e deletados do sistemas, apenas por administradores, enquanto as rotas de leitura de produtos e lotes usuários sem estarem logados podem ver. Um produto pode ter vários lotes, mas um lote pode estar atrelapo apenas a um produto.
+Tanto produtos e como lotes podem ser criados, editados e deletados do sistemas, apenas por administradores, enquanto as rotas de leitura de produtos e lotes usuários sem estarem logados podem ver. Um produto pode ter vários lotes, mas um lote pode estar atrelapo apenas a um produto. Todo lote precisa estar atrelado a um produto, mas um produto pode ser criado sem um lote atrelado a ele. Quando um produto é deletado todos os lotes atrelados a ele são apagados por consequência.
 
 ## Back-End
 
